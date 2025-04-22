@@ -18,7 +18,10 @@ return new class extends Migration
             $table->string('jenis');
             $table->string('kategori');
             $table->string('merek');
-            
+            $table->string('deskripsi');
+            $table->string('stok');
+            $table->string('harga_sewa');
+            $table->string('status');
         });
     }
 
