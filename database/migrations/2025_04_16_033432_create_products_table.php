@@ -15,13 +15,14 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('nama');
+            $table->string('foto')->nullable();
             $table->string('jenis');
             $table->string('kategori');
             $table->string('merek');
             $table->string('deskripsi');
-            $table->string('stok');
+            $table->string('stok')->default(0);
             $table->string('harga_sewa');
-            $table->string('status');
+            $table->enum('status', ['tersedia', 'tidak tersedia'])->default('tersedia');
         });
     }
 

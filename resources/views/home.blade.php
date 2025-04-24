@@ -4,65 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgroTech - Rental Alat Pertanian</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 <body class="bg-white">
-    <!-- Navigation -->
-    <nav class="bg-white py-2 px-4 justify-between flex shadow-sm sticky top-0">
-        <div class="flex items-center gap-4">
-            <h1 class="text-xl font-bold text-gray-800">AgroTech</h1>
-            <div class="relative gap-10">
-                <a href="/pencarian" class="absolute right-2 top-1/2 transform -translate-y-1/2 hover:text-green-500">
-                    <i class="fa fa-search text-gray-500 text-sm justify-end"></i>
-                </a>
-                <input type="text" placeholder="Cari alat" class="bg-gray-100 px-3 py-1 pr-8 rounded-lg text-sm border border-gray-300">
-            </div>
-        </div>
-        <div class="flex items-center gap-50">
-            <div class="sm:hidden md:flex space-x-4 mr-4">
-                <a href="#" class="text-sm text-gray-700 hover:text-green-500">Katalog Produk</a>
-                <a href="#" class="text-sm text-gray-700 hover:text-green-500">Mengapa Kami</a>
-                <a href="#" class="text-sm text-gray-700 hover:text-green-500">Perusahaan</a>
-            </div>
-            <div class="flex items-center space-x-4">
-                <a href="#" class="text-sm text-gray-700 hover:text-green-500"><i class="fa fa-phone"></i></a>
-                <a href="#" class="text-sm text-gray-700 hover:text-green-500"><i class="fa fa-bell"></i></a>
-                <a href="#" class="text-sm text-gray-700 hover:text-green-500"><i class="fa fa-user"></i></a>
-            </div>
-        </div>
-    </nav>
+    <!-- Navbar -->
+     @include('asset.navbar')
 
     <section class="relative w-full min-h-screen overflow-hidden">
-    <!-- Background Image -->
-    <img 
-        src="{{ asset('img/tractor.jpg') }}" 
-        alt="Gambar Roller" 
-        class="absolute inset-0 object-cover w-full h-full z-0"
-    >
+        <!-- Background Image -->
+        <img src="{{ asset('img/tractor.jpg') }}" alt="Gambar Tractor" class="absolute inset-0 w-full h-full object-cover z-0">
+        <!-- Overlay Hitam Transparan -->
+        <div class="absolute inset-0 bg-black/30 z-10"></div>
 
-    <!-- Overlay Hitam Transparan -->
-    <div class="absolute inset-0 bg-black bg-opacity-30 z-10"></div>
+        <!-- Konten Tengah -->
+        <div class="relative z-20 flex flex-col items-center justify-center min-h-screen px-4 text-center text-white">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight drop-shadow-md">
+                Cari Rental Alat<br>Online
+            </h1>
 
-    <!-- Konten Tengah -->
-    <div class="relative z-20 flex flex-col items-center justify-center h-full text-center text-white px-4">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight drop-shadow-md">
-            Cari Rental Alat<br>Online
-        </h1>
-
-        <div class="bg-white rounded-md flex w-full max-w-md overflow-hidden shadow-md">
-            <input 
-                type="text" 
-                placeholder="Cari Alat" 
-                class="px-4 py-3 w-full text-gray-700 focus:outline-none"
-            >
-            <button class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 font-medium">
-                CARI
-            </button>
+            <div class="flex w-full max-w-md overflow-hidden rounded-md bg-white shadow-md">
+                <input 
+                    type="text" 
+                    placeholder="Cari Alat" 
+                    class="w-full px-4 py-3 text-gray-700 focus:outline-none"
+                >
+                <button class="px-6 py-3 font-medium text-white bg-green-500 hover:bg-green-600">
+                    CARI
+                </button>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+
 
     <!-- Equipment Categories -->
     <section class="py-12 px-6 max-w-6xl mx-auto">
