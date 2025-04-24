@@ -16,7 +16,7 @@
     <!-- Navbar -->
     @include('asset.navbar')
 
-    <div class="min-h-screen flex items-center justify-center mt-10">
+    <div class="min-h-screen flex items-center justify-center mt-10 mb-10">
         <div class="bg-gray-50 p-8 rounded-2xl shadow-md w-[400px]">
             <h1 class="text-center font-bold text-lg mb-1">AgroTech</h1>
             <p class="text-center text-sm text-gray-500 mb-6">Selamat Datang!</p>
@@ -35,7 +35,7 @@
             </div>
 
             <!-- Form -->
-            <form action="#" method="POST" enctype="multipart/form-data" class="space-y-3">
+            <form action="" method="POST" enctype="multipart/form-data" class="space-y-3">
                 @csrf
 
                 <label for="foto" class="text-sm text-gray-500 mb-2">Upload Foto Profil</label>
@@ -97,6 +97,8 @@
             }
         });
     </script>
+
+    @include('asset.footer')
 
 </body>
 </html>

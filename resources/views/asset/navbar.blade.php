@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center h-16">
             <!-- Logo -->
             <div class="flex-shrink-0">
-                <a href="#" class="text-xl font-bold text-gray-800">AgroTech</a>
+                <a href="/home" class="text-xl font-bold text-gray-800">AgroTech</a>
             </div>
 
             <!-- Hamburger Button (Mobile) -->
