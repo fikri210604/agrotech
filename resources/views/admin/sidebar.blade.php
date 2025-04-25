@@ -23,21 +23,21 @@
 <div class="sidebar-heading">List Data</div>
 
 
+<li class="nav-item {{ request()->is('products') ? 'active' : '' }}">
+    <a class="nav-link" href="/products">
+        <i class="fas fa-light fa-briefcase"></i>
+        <span>Data Alat</span></a>
+</li>
 <!-- Nav Item - Tables -->
 <li class="nav-item {{ request()->is('users') ? 'active' : '' }}">
     <a class="nav-link" href="/users">
-        <i class="fas fa-fw fa-table"></i>
+        <i class="fas fa-user"></i>
         <span>Data Penyewa</span></a>
 </li>
 
-<li class="nav-item {{ request()->is('products') ? 'active' : '' }}">
-    <a class="nav-link" href="/products">
-        <i class="fas fa-fw fa-table"></i>
-        <span>Data Alat</span></a>
-</li>
 <li class="nav-item {{ request()->is('perusahaan') ? 'active' : '' }}">
     <a class="nav-link" href="/perusahaan">
-        <i class="fas fa-fw fa-table"></i>
+        <i class="fas fa-clipboard-list"></i>
         <span>Profil Perusahaan</span></a>
 </li>
 <!-- Divider -->

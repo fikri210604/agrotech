@@ -1,4 +1,4 @@
-<nav class="bg-white border-b-4 border-green-700 shadow-md px-4 py-2 flex items-center justify-between">
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
 <!-- Sidebar Toggle (Topbar) -->
 <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">

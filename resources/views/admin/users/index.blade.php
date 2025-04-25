@@ -99,44 +99,55 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="foto">Foto</label>
-                        <input type="file" name="foto" class="form-control" required>
-                    </div>
+                    <form>
+                        <div class="row">
+                            <!-- Kolom Kiri -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="foto">Foto</label>
+                                    <input type="file" name="foto" class="form-control" required>
+                                </div>
 
-                    <div class="form-group">
-                        <label for="nik">NIK</label>
-                        <input type="text" name="nik" id="nik" class="form-control" required>
-                    </div>
+                                <div class="form-group">
+                                    <label for="nik">NIK</label>
+                                    <input type="text" name="nik" id="nik" class="form-control" required>
+                                </div>
 
-                    <div class="form-group">
-                        <label for="name">Nama</label>
-                        <input type="text" name="name" id="name" class="form-control" required>
-                    </div>
+                                <div class="form-group">
+                                    <label for="name">Nama</label>
+                                    <input type="text" name="name" id="name" class="form-control" required>
+                                </div>
 
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" name="email" id="email" class="form-control" required>
-                    </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" name="email" id="email" class="form-control" required>
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="phone">No HP</label>
-                        <input type="text" name="phone" id="phone" class="form-control" required>
-                    </div>
+                            <!-- Kolom Kanan -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">No HP</label>
+                                    <input type="text" name="phone" id="phone" class="form-control" required>
+                                </div>
 
-                    <div class="form-group">
-                        <label for="alamat">Alamat</label>
-                        <textarea name="alamat" id="alamat" class="form-control" required></textarea>
-                    </div>
+                                <div class="form-group">
+                                    <label for="alamat">Alamat</label>
+                                    <textarea name="alamat" id="alamat" class="form-control" rows="3" required></textarea>
+                                </div>
 
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select name="status" id="status" class="form-control" required>
-                            <option value="aktif">Aktif</option>
-                            <option value="nonaktif">Nonaktif</option>
-                        </select>
-                    </div>
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select name="status" id="status" class="form-control" required>
+                                        <option value="aktif">Aktif</option>
+                                        <option value="nonaktif">Nonaktif</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
+
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
