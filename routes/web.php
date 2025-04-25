@@ -11,6 +11,9 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/cari', function () {
+    return view('cari-rental');
+});
 Route::get('/admin', function () {
     return view('admin.dashboard');
 })->middleware('auth');

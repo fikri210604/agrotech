@@ -38,6 +38,15 @@
             <form action="" method="POST" enctype="multipart/form-data" class="space-y-3">
                 @csrf
 
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <label for="foto" class="text-sm text-gray-500 mb-2">Upload Foto Profil</label>
                 <label for="name" class="text-sm text-gray-500 mb-2">Nama</label>
                 <input type="text" name="name" placeholder="Nama"
