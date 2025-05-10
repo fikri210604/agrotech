@@ -29,22 +29,37 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama_perusahaan' => 'required|string|max:255',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
             'email' => 'required|email|max:255',
-            'telepon' => 'required|string|max:15',
-            'alamat' => 'required|string|max:255',
-            'deskripsi' => 'required|string|max:500',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'deskripsi' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'visi' => 'required|string|max:500',
             'misi' => 'required|string|max:500',
+            'alasan_memilih' => 'required|string|max:500',
         ]);
-
-        if ($request->hasFile('logo')) {
-            $validated['logo'] = $request->file('logo')->store('images');
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
         }
-        Company::create($validated);
-        return redirect()->route('companies.index')->with('success', 'Company created successfully.');
+        $filename = null;
+        if ($request->hasFile('foto')) {
+            $filename = time() . '.' . $request->foto->extension();
+            $request->foto->move(public_path('images'), $filename);
+        }
+        Perusahaan::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'deskripsi' => $request->deskripsi,
+            'foto' => $filename,
+            'visi' => $request->visi,
+            'misi' => $request->misi,
+            'alasan_memilih' => $request->alasan_memilih,
+        ]);
+        return redirect()->route('perusahaan.index')->with('success', 'Perusahaan created successfully.');
     }
 
     /**
@@ -68,7 +83,33 @@ class CompanyController extends Controller
      */
     public function update(Request $request, Company $company)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+            'email' => 'required|email|max:255',
+            'deskripsi' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'visi' => 'required|string|max:500',
+            'misi' => 'required|string|max:500',
+            'alasan_memilih' => 'required|string|max:500',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
         
+        $perusahaan->update([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'deskripsi' => $request->deskripsi,
+            'foto' => $request->hasFile('foto') ? $request->file('foto')->store('images') : $perusahaan->foto,
+            'visi' => $request->visi,
+            'misi' => $request->misi,
+            'alasan_memilih' => $request->alasan_memilih,
+        ]);
+        return redirect()->route('perusahaan.index')->with('success', 'Perusahaan updated successfully.');
     }
 
     /**

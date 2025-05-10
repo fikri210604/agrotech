@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Perusahaan;
+use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PerusahaanController extends Controller
 {
@@ -12,8 +13,8 @@ class PerusahaanController extends Controller
      */
     public function index()
     {
-        $perusahaans = Perusahaan::all();
-        return view('admin.perusahaan.index', compact('perusahaans'));
+        $data = Company::all();
+        return view('admin.perusahaan.index', compact('data'));
     }
 
     /**
@@ -29,7 +30,7 @@ class PerusahaanController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama_perusahaan' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'telepon' => 'required|string|max:15',
@@ -38,12 +39,30 @@ class PerusahaanController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'visi' => 'required|string|max:500',
             'misi' => 'required|string|max:500',
+            'alasan_memilih' => 'required|string|max:500',
         ]);
-
-        if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('images');
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
         }
-        Perusahaan::create($validated);
+        $filename = null;
+        if ($request->hasFile('foto')) {
+            $filename = time() . '.' . $request->foto->extension();
+            $request->foto->move(public_path('images'), $filename);
+        }
+        Perusahaan::create([
+            'nama_perusahaan' => $request->nama_perusahaan,
+            'alamat' => $request->alamat,
+            'telepon' => $request->telepon,
+            'email' => $request->email,
+            'deskripsi' => $request->deskripsi,
+            'foto' => $filename,
+            'visi' => $request->visi,
+            'misi' => $request->misi,
+            'alasan_memilih' => $request->alasan_memilih,
+        ]);
+        dd($request->all());
         return redirect()->route('perusahaan.index')->with('success', 'Perusahaan created successfully.');
         
     }
@@ -69,7 +88,7 @@ class PerusahaanController extends Controller
      */
     public function update(Request $request, Perusahaan $perusahaan)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama_perusahaan' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'telepon' => 'required|string|max:15',
@@ -78,14 +97,27 @@ class PerusahaanController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'visi' => 'required|string|max:500',
             'misi' => 'required|string|max:500',
+            'alasan_memilih' => 'required|string|max:500',
         ]);
-        if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('images');
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
         }
-        $perusahaan->update($validated);
-        return redirect()->route('perusahaan.index')->with('success', 'Perusahaan updated successfully.');
-
+        
+        $perusahaan->update([
+            'nama_perusahaan' => $request->nama_perusahaan,
+            'alamat' => $request->alamat,
+            'telepon' => $request->telepon,
+            'email' => $request->email,
+            'deskripsi' => $request->deskripsi,
+            'visi' => $request->visi,
+            'misi' => $request->misi,
+            'alasan_memilih' => $request->alasan_memilih,
+            'foto' => $request->hasFile('foto') ? $request->file('foto')->store('images') : $perusahaan->foto,
+        ]);
     }
+
 
     /**
      * Remove the specified resource from storage.

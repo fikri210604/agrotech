@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Models\Role;
 class UserController extends Controller
 {
     /**
@@ -30,39 +32,41 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
             'nik' => 'required|unique:users,nik',
-            'name' => 'required',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'phone' => 'required',
-            'alamat' => 'required',
-            'status' => 'required',
+            'phone' => 'required|string|max:15',
+            'alamat' => 'required|string|max:255',
+            'status' => 'required|in:aktif,tidak aktif',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
-        $user = new User();
-        
-        // Handle file upload for foto
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $fileName = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('foto'), $fileName);
-            $user->foto = $fileName;
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
         }
 
-        $user->nik = $request->nik;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->alamat = $request->alamat;
-        $user->status = $request->status;
-
-        // Default password handling
-        $user->password = Hash::make('passworddefault123');
-    
-        $user->save();
-    
-        return redirect('/admin/users')->with('success', 'Data Berhasil Ditambahkan');
+        $filename = null;
+        // Jika ada file foto yang diupload
+        if ($request->hasFile('foto')) {
+            $filename = time() . '.' . $request->foto->extension();
+            $request->foto->move(public_path('images'), $filename);
+        }
+        // // Menyimpan data ke dalam database menggunakan User::create()
+        User::create([
+            'role_id' => 1,
+            'nik' => $request->nik,
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'alamat' => $request->alamat,       
+            'status' => $request->status,
+            'foto' => $filename,
+        ]);
+        return redirect('users.store')->with('success', 'Selamat Datang ' . $request->name);
     }
 
     /**
@@ -87,32 +91,48 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validated = $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'nik' => ['required', 'size:16'],
-            'phone' => 'required',
-            'alamat' => 'required',
+        $validator = Validator::make($request->all(), [
+            'nik' => 'required|unique:users,nik',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|max:15',
+            'alamat' => 'required|string|max:255',
+            'status' => 'required|in:aktif,tidak aktif',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
-        if($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('images');
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
         }
-        if($request->filled('password')) {
-            $validated['password'] = Hash::make($validated->password);
-        }
-        User::findOrFail($id)->update($validated);
-        return redirect('/admin/users')->with('success', 'Data Berhasil Diupdate');
+        // if($request->hasFile('foto')) {
+        //     $validated['foto'] = $request->file('foto')->store('images');
+        // }
+        // if($request->filled('password')) {
+        //     $validated['password'] = Hash::make($validated->password);
+        // }
+
+        User::findOrFail($id)->update([
+            'nik' => $request->nik,
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'alamat' => $request->alamat,       
+            'status' => $request->status,
+            // 'foto' => $filename,
+        ]);
+
+        return redirect()->route('users.index')->with('success', 'Selamat Datang ' . $request->name);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
         $users = User::findOrFail($id);
         $users->delete();
-        return redirect('/admin/users')->with('success', 'Data Berhasil Dihapus');
+        return redirect()->route('users.index')->with('success', 'Data Penyewa berhasil ditambahkan');
     }
 }

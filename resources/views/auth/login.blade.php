@@ -31,9 +31,9 @@
                             <i id="passwordIcon" class="fas fa-lock"></i>
                         </button>
                     </div>
-                    <div class="flex justify-between mt-4 ">
-                        <a href="/forgot-pass" class="text-sm text-blue-500 hover:underline">Forgot Password?</a>
-                        <a href="/register" class="text-sm text-blue-500 hover:underline">Register</a>
+                    <div class="flex justify-between mt-4 gap-[200px]">
+                        <a href="/forgot-pass" class="text-sm text-gray-800 hover:underline">Lupa Kata Sandi?</a>
+                        <a href="/register" class="text-sm text-gray-800 hover:underline">Belum Punya Akun?</a>
                     </div>
                 </div>
                 <button type="submit" class="bg-green-500 text-white font-semibold py-2 px-4 rounded-xl w-[50%] hover:bg-green-600">Login</button>

@@ -1,61 +1,56 @@
 @extends('admin.app')
+
 @section('content')
+<div class="container">
+    <div class="bg-white shadow-md rounded p-4">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold">Profil Perusahaan</h2>
+            <a href="{{ route('company.create') }}" class="btn btn-outline-secondary">✏️ Edit Data</a>
+        </div>
 
-<div class="p-6 space-y-6">
-  <!-- Judul Halaman -->
-  <div class="text-2xl font-semibold">Profil Perusahaan</div>
+        {{-- Informasi Penting --}}
+        <div class="border rounded mb-4">
+            <div class="bg-green-600 text-white px-4 py-2 rounded-t">Informasi Penting Perusahaan</div>
+            <div class="p-4">
+                <input type="text" readonly class="form-control mb-2" value="{{ $data->name ?? '' }}" placeholder="Nama">
+                <input type="text" readonly class="form-control mb-2" value="{{ $data->email ?? '' }}" placeholder="Email">
+                <input type="text" readonly class="form-control" value="{{ $data->phone ?? '' }}" placeholder="Nomor Telpon">
+            </div>
+        </div>
 
-  <!-- Card Informasi Penting Perusahaan -->
-  <div class="bg-white shadow-md rounded-lg border">
-    <div class="bg-green-700 text-white font-semibold p-3 rounded-t-lg flex items-center space-x-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
-      </svg>
-      <span>Informasi Penting Perusahaan</span>
-    </div>
-    <div class="p-4">
-      <!-- Konten Card -->
-    </div>
-  </div>
+        {{-- Deskripsi Perusahaan --}}
+        <div class="border rounded mb-4">
+            <div class="bg-green-600 text-white px-4 py-2 rounded-t">Deskripsi Perusahaan</div>
+            <div class="p-4">
+                <textarea readonly class="form-control mb-2" placeholder="Deskripsi Layanan">{{ $data->deskripsi_layanan ?? '' }}</textarea>
+                <input type="text" readonly class="form-control mb-2" value="{{ $data->visi ?? '' }}" placeholder="Visi">
+                <input type="text" readonly class="form-control" value="{{ $data->misi ?? '' }}" placeholder="Misi">
+            </div>
+        </div>
 
-  <!-- Card Deskripsi Perusahaan -->
-  <div class="bg-white shadow-md rounded-lg border">
-    <div class="bg-green-700 text-white font-semibold p-3 rounded-t-lg flex items-center space-x-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6h13V9a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h5z"/>
-      </svg>
-      <span>Deskripsi Perusahaan</span>
-    </div>
-    <div class="p-4">
-      <!-- Konten Card -->
-    </div>
-  </div>
+        {{-- Promosi --}}
+        <div class="border rounded mb-4">
+            <div class="bg-green-600 text-white px-4 py-2 rounded-t">Promosi</div>
+            <div class="p-4">
+                @if(!empty($data->foto_promosi))
+                    <img src="{{ asset('images/company-profile/'.$data->foto_promosi) }}" width="100" class="mb-2">
+                @endif
+                <input type="text" readonly class="form-control mb-2" value="{{ $data->alasan_memilih ?? '' }}" placeholder="Alasan Memilih">
+                <input type="text" readonly class="form-control text-center bg-gray-100 text-gray-500" value="+ Tambah Alasan Memilih">
+            </div>
+        </div>
 
-  <!-- Card Promosi -->
-  <div class="bg-white shadow-md rounded-lg border">
-    <div class="bg-green-700 text-white font-semibold p-3 rounded-t-lg flex items-center space-x-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
-      </svg>
-      <span>Promosi</span>
+        {{-- Foto Galeri --}}
+        <div class="border rounded mb-4">
+            <div class="bg-green-600 text-white px-4 py-2 rounded-t">Foto-foto</div>
+            <div class="p-4 flex flex-wrap gap-2">
+                @if(is_array($data->foto_galeri))
+                    @foreach($data->foto_galeri as $foto)
+                        <img src="{{ asset('images/company-profile/'.$foto) }}" width="100">
+                    @endforeach
+                @endif
+            </div>
+        </div>
     </div>
-    <div class="p-4">
-      <!-- Konten Card -->
-    </div>
-  </div>
-
-  <!-- Card Foto-foto -->
-  <div class="bg-white shadow-md rounded-lg border">
-    <div class="bg-green-700 text-white font-semibold p-3 rounded-t-lg flex items-center space-x-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h4l3 5 4-6 5 8h4"/>
-      </svg>
-      <span>Foto-foto</span>
-    </div>
-    <div class="p-4">
-      <!-- Konten Card -->
-    </div>
-  </div>
 </div>
-
 @endsection

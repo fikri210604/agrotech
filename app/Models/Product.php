@@ -15,6 +15,7 @@ class Product extends Model
         'nama',
         'kategori',
         'merek',
+        'jenis',
         'deskripsi',
         'stok',
         'harga_sewa',
