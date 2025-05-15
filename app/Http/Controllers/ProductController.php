@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::paginate(10);
         return view('admin.products.index', compact('products'));
     }
 
@@ -82,15 +82,16 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(string $id)
     {
-        
+        $product = Product::findOrFail($id);
+        return view('admin.producs.edit', compact('product'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, string $id)
     {
         $validator = Validator::make($request->all(), [
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -109,27 +110,40 @@ class ProductController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        // Simpan data produk
-        $product->update([
-            'nama' => $request->nama,
-            'jenis' => $request->jenis,
-            'kategori' => $request->kategori,
-            'merek' => $request->merek,
-            'deskripsi' => $request->deskripsi,
-            'harga_sewa' => $request->harga_sewa,
-            'stok' => $request->stok,
-            'status' => $request->status,
+
+
+        Product::findOrFail($id)->update([
+            'foto'=>$request->$foto,
+            'nama' => $request->$nama,
+            'jenis' => $request->$jenis,
+            'kategori' => $request->$kategori,
+            'merek' => $request->$merek,
+            'deskripsi' => $request->$deskripsi,
+            'harga_sewa' => $request->$harga_sewa,
+            'stok' => $request->$stok,
+            'status' => $request->$status
         ]);
+
         return redirect()->route('products.index')->with('success', 'Data berhasil diupdate!');
     }
+
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Request $request, string $id)
     {
-        $products = Product::findOrFail($id);
-        $products->delete();
-        return redirect('/admin/products')->with('success', 'Data Berhasil Dihapus');
+        $product = Product::findOrFail($id);
+
+        // Hapus file foto jika ada
+        if ($product->foto && file_exists(public_path('images/product/' . $product->foto))) {
+            unlink(public_path('images/product/' . $product->foto));
+        }
+
+        $product->delete();
+
+        return redirect()->back()->with('success', 'Data berhasil dihapus!');
     }
+
 }

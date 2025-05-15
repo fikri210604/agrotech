@@ -16,9 +16,13 @@ class Company extends Model
         'deskripsi',
         'visi',
         'misi',                 
-        'foto',
         'alasan_memilih',
+        'foto_promosi',
+        'foto_galeri',
     ];
 
+    protected $cast = [
+        'foto' => 'array'
+    ];
 
 }

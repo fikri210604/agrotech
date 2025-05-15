@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('visi');
             $table->string('misi');
             $table->string('alasan_memilih')->nullable();
-            $table->string('foto')->nullable();
+            $table->text('foto_promosi')->nullable();
+            $table->text('foto_galeri')->nullable();
         });
     }
 
