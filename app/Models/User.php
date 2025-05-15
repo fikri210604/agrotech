@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'foto', 'nik', 'name', 'email', 'phone', 'alamat', 'status'
+        'role_id','nik', 'name', 'email', 'phone', 'alamat', 'status', 'foto','password'
     ];
 
     /**
@@ -39,6 +39,11 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     protected function casts(): array
     {
         return [

@@ -15,6 +15,7 @@ class Product extends Model
         'nama',
         'kategori',
         'merek',
+        'jenis',
         'deskripsi',
         'stok',
         'harga_sewa',
@@ -22,5 +23,8 @@ class Product extends Model
         'foto',
     ];
 
-
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }
