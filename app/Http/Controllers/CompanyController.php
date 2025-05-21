@@ -4,118 +4,141 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $companies = Company::all();
-        return view('admin.company.index', compact('companies'));
+        $company = Company::first(); // hanya satu data profil
+        return view('admin.perusahaan.index', compact('company'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('admin.company.create');
+        return view('admin.perusahaan.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:15',
             'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:15',
             'deskripsi' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'visi' => 'required|string|max:500',
             'misi' => 'required|string|max:500',
             'alasan_memilih' => 'required|string|max:500',
+            'foto_promosi' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto_galeri' => 'nullable|array',
+            'foto_galeri.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
         if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
+            return redirect()->back()->withErrors($validator)->withInput();
         }
-        $filename = null;
-        if ($request->hasFile('foto')) {
-            $filename = time() . '.' . $request->foto->extension();
-            $request->foto->move(public_path('images'), $filename);
+
+        $promosiFilename = null;
+        if ($request->hasFile('foto_promosi')) {
+            $promosiFilename = time() . '_promosi.' . $request->file('foto_promosi')->extension();
+            $request->file('foto_promosi')->move(public_path('images/company-profile/promosi'), $promosiFilename);
         }
-        Perusahaan::create([
+
+        $galeriFilenames = [];
+        if ($request->hasFile('foto_galeri')) {
+            foreach ($request->file('foto_galeri') as $file) {
+                $namaFile = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/company-profile/galeri'), $namaFile);
+                $galeriFilenames[] = $namaFile;
+            }
+        }
+
+        Company::create([
             'name' => $request->name,
             'phone' => $request->phone,
             'email' => $request->email,
             'deskripsi' => $request->deskripsi,
-            'foto' => $filename,
             'visi' => $request->visi,
             'misi' => $request->misi,
             'alasan_memilih' => $request->alasan_memilih,
+            'foto_promosi' => $promosiFilename,
+            'foto_galeri' => !empty($galeriFilenames) ? json_encode($galeriFilenames) : null,
         ]);
+
         return redirect()->route('perusahaan.index')->with('success', 'Perusahaan created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Company $company)
+
+    public function show()
     {
-        //
+        $company = Company::first();
+        return view('admin.perusahaan.show', compact('company'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Company $company)
+    public function edit()
     {
-        return view('admin.company.edit', compact('company'));
+        $company = Company::first();
+        return view('admin.perusahaan.index', compact('company'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Company $company)
+    public function update(Request $request)
     {
+        $company = Company::first() ?? new Company();
+    
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:15',
             'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:15',
             'deskripsi' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'visi' => 'required|string|max:500',
             'misi' => 'required|string|max:500',
             'alasan_memilih' => 'required|string|max:500',
+            'foto_promosi' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto_galeri' => 'nullable|array',
+            'foto_galeri.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+    
         if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
+            return redirect()->back()->withErrors($validator)->withInput();
         }
-        
-        $perusahaan->update([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'deskripsi' => $request->deskripsi,
-            'foto' => $request->hasFile('foto') ? $request->file('foto')->store('images') : $perusahaan->foto,
-            'visi' => $request->visi,
-            'misi' => $request->misi,
-            'alasan_memilih' => $request->alasan_memilih,
-        ]);
+    
+        // SIMPAN FOTO PROMOSI
+        if ($request->hasFile('foto_promosi')) {
+            $promosiFilename = time() . '_promosi.' . $request->file('foto_promosi')->extension();
+            $request->file('foto_promosi')->move(public_path('images/company-profile/promosi'), $promosiFilename);
+            $company->foto_promosi = $promosiFilename;
+        }
+    
+        // SIMPAN FOTO GALERI
+        if ($request->hasFile('foto_galeri')) {
+            $fotoBaru = [];
+    
+            foreach ($request->file('foto_galeri') as $file) {
+                $namaFile = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/company-profile/galeri'), $namaFile);
+                $fotoBaru[] = $namaFile;
+            }
+    
+            $fotoLama = json_decode($company->foto_galeri, true) ?? [];
+            $company->foto_galeri = json_encode(array_merge($fotoLama, $fotoBaru));
+        }
+    
+        // UPDATE FIELD LAIN
+        $company->name = $request->name;
+        $company->email = $request->email;
+        $company->phone = $request->phone;
+        $company->deskripsi = $request->deskripsi;
+        $company->visi = $request->visi;
+        $company->misi = $request->misi;
+        $company->alasan_memilih = $request->alasan_memilih;
+    
+        $company->save();
+    
         return redirect()->route('perusahaan.index')->with('success', 'Perusahaan updated successfully.');
     }
+    
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Company $company)
+    public function destroy()
     {
         //
     }

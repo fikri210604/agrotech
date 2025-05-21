@@ -2,10 +2,12 @@
 
 @section('content')
 <div class="container">
-    <div class="bg-white shadow-md rounded p-4">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold">Profil Perusahaan</h2>
-            <a href="{{ route('perusahaan.index') }}" class="btn btn-outline-secondary">👤 View Data</a>
+    <!-- Header -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Data Alat</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#addModal">
+                <i class="fas fa-pen fa-sm text-white-50"></i> Edit Data
+            </a>
         </div>
 
         <form action="{{ route('perusahaan.store') }}" method="POST" enctype="multipart/form-data">

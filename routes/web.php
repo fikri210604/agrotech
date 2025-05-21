@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,13 +45,17 @@ Route::put('/users/{id}', [UserController::class, 'update']);
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-Route::get('/products/create', [ProductController::class, 'create']);
+Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-Route::get('/products/{id}', [ProductController::class, 'edit']);
-Route::put('/products/{id}', [ProductController::class, 'update']);
-Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit'); 
+Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
+Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 
-Route::get('/perusahaan', [PerusahaanController::class, 'index'])->name('perusahaan.index');
-Route::get('/perusahaan/create', [PerusahaanController::class, 'create'])->name('perusahaan.create');
-Route::get('/perusahaan/{id}', [PerusahaanController::class, 'edit']);
-Route::put('/perusahaan/{id}', [PerusahaanController::class, 'update']);
+Route::get('/perusahaan', [CompanyController::class, 'index'])->name('perusahaan.index'); // tampilkan profil
+Route::get('/perusahaan/edit', [CompanyController::class, 'edit'])->name('perusahaan.edit'); // halaman edit
+Route::post('/perusahaan', [CompanyController::class, 'store'])->name('perusahaan.store'); // simpan baru (kalau pakai)
+Route::put('/perusahaan', [CompanyController::class, 'update'])->name('perusahaan.update'); // update data perusahaan
+
+
+Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+Route::put('/transactions/{id}', [TransactionController::class, 'update'])->name('transactions.update');

@@ -35,11 +35,19 @@
         <span>Data Penyewa</span></a>
 </li>
 
+<li class="nav-item {{ request()->is('transaction') ? 'active' : '' }}">
+    <a class="nav-link" href="/transaction">
+        <i class="fas fa-clipboard-list"></i>
+        <span>Transaksi</span></a>
+</li>
+
 <li class="nav-item {{ request()->is('perusahaan') ? 'active' : '' }}">
     <a class="nav-link" href="/perusahaan">
         <i class="fas fa-clipboard-list"></i>
         <span>Profil Perusahaan</span></a>
 </li>
+
+
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">
 

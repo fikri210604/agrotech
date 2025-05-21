@@ -49,6 +49,7 @@
                                 <th>Deskripsi</th>
                                 <th>Harga</th>
                                 <th>Stok</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -66,8 +67,9 @@
                                     <td>{{ $product->jenis }}</td>
                                     <td>{{ $product->merek }}</td>
                                     <td>{{ $product->deskripsi }}</td>
-                                    <td>{{ $product->harga }}</td>
+                                    <td>{{ $product->harga_sewa }}</td>
                                     <td>{{ $product->stok }}</td>
+                                    <td>{{ $product->status}}</td>
                                     <td class="d-flex justify-content-center gap-1">
                                         <!-- Tombol Edit -->
                                         <a href="/products/{{ $product->id }}/edit"
@@ -204,7 +206,7 @@
                     </div>
                     <div class="form-group">
                         <label>Nama Alat</label>
-                        <input type="text" name="name" value="{{ $product->name }}" class="form-control" required>
+                        <input type="text" name="name" value="{{ $product->nama }}" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Kategori</label>
@@ -224,7 +226,7 @@
                     </div>
                     <div class="form-group">
                         <label>Harga</label>
-                        <input type="text" name="harga" value="{{ $product->harga }}" class="form-control" required>
+                        <input type="text" name="harga" value="{{ $product->harga_sewa }}" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Stok</label>

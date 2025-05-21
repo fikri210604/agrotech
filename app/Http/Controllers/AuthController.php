@@ -12,6 +12,14 @@ class AuthController extends Controller
 {
     public function login()
     {
+        if(Auth::check()){
+            $userRole = Auth::user()->role_id;
+            if($userRole  == 1){
+                return redirect()->intended('/dashboard');
+            } elseif($userRole  == 2){
+                return redirect()->intended('/home');
+            }
+        }
         return view('auth.login');
     }
 
@@ -69,6 +77,11 @@ class AuthController extends Controller
     }
 
 
+    public function forgotPassword()
+    {
+        return view('auth.forgot-password');
+    }
+    
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
