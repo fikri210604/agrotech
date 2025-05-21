@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -31,7 +32,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'nama' => 'required',
             'jenis' => 'required',
@@ -42,15 +43,20 @@ class ProductController extends Controller
             'stok' => 'required|numeric',
             'status' => 'required|in:tersedia,tidak tersedia',
         ]);
-
-        dd($request->all());
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
         // Proses upload file
-        $fotoName = time() . '.' . $request->foto->extension();
-        $request->foto->move(public_path('images'), $fotoName);
-
+        $filename = null;
+        if ($request->hasFile('foto')) {
+            $filename = time() . '.' . $request->foto->extension();
+            $request->foto->move(public_path('images/product'), $filename);
+        }
         // Simpan data produk
         Product::create([
-            'foto' => 'images/' . $fotoName,
+            'foto' => $filename,
             'nama' => $request->nama,
             'jenis' => $request->jenis,
             'kategori' => $request->kategori,
@@ -60,8 +66,9 @@ class ProductController extends Controller
             'stok' => $request->stok,
             'status' => $request->status,
         ]);
-
-        return redirect()->back()->with('success', 'Data berhasil ditambahkan!');
+        // Simpan data produk
+        // dd($request->all());
+        return redirect('products.store')->with('success', 'Selamat Datang ' . $request->name);
     }
 
     /**
@@ -85,35 +92,44 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'nama' => 'required',
+            'jenis' => 'required',
             'kategori' => 'required',
             'merek' => 'required',
             'deskripsi' => 'required',
-            'stok' => 'required',
-            'harga_sewa' => 'required',
-            'status' => 'required',
+            'harga_sewa' => 'required|numeric',
+            'stok' => 'required|numeric',
+            'status' => 'required|in:tersedia,tidak tersedia',
         ]);
 
-        $product->nama = $request->nama;
-        $product->kategori = $request->kategori;
-        $product->merek = $request->merek;
-        $product->deskripsi = $request->deskripsi;
-        $product->stok = $request->stok;
-        $product->harga_sewa = $request->harga_sewa;
-        $product->status = $request->status;
-
-        $product->save();
-
-        return redirect('/admin/products')->with('success', 'Data Berhasil Diupdate');
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        // Simpan data produk
+        $product->update([
+            'nama' => $request->nama,
+            'jenis' => $request->jenis,
+            'kategori' => $request->kategori,
+            'merek' => $request->merek,
+            'deskripsi' => $request->deskripsi,
+            'harga_sewa' => $request->harga_sewa,
+            'stok' => $request->stok,
+            'status' => $request->status,
+        ]);
+        return redirect()->route('products.index')->with('success', 'Data berhasil diupdate!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Request $request, string $id)
     {
-        $product->delete();
+        $products = Product::findOrFail($id);
+        $products->delete();
         return redirect('/admin/products')->with('success', 'Data Berhasil Dihapus');
     }
 }

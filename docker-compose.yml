@@ -1,0 +1,57 @@
+version: "3.7"
+
+services:
+
+  app-agrotech:
+    build:
+      args:
+        user: intan
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: app-agrotech:latest
+    container_name: app-agrotech
+    depends_on:
+      - nginx-agrotech
+      - mysql-agrotech
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - development
+
+  nginx-agrotech:
+    image: nginx:alpine
+    container_name: app-agrotech-nginx
+    restart: unless-stopped
+    ports:
+      - 4200:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - development
+
+  mysql-agrotech:
+    image: mysql:8.0.30
+    container_name: mysql-8.0.30
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    volumes:
+      - my-db:/var/lib/mysql
+    networks:
+      - development
+
+volumes:
+  my-db:
+
+networks:
+  development:
+    name: development

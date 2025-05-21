@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('deskripsi');
             $table->string('visi');
             $table->string('misi');
+            $table->string('alasan_memilih')->nullable();
             $table->string('foto')->nullable();
         });
     }

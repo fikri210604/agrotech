@@ -13,12 +13,8 @@
      @include('asset.navbar')
 
     <section class="relative w-full min-h-screen overflow-hidden">
-        <!-- Background Image -->
         <img src="{{ asset('img/tractor.jpg') }}" alt="Gambar Tractor" class="absolute inset-0 w-full h-full object-cover z-0">
-        <!-- Overlay Hitam Transparan -->
         <div class="absolute inset-0 bg-black/30 z-10"></div>
-
-        <!-- Konten Tengah -->
         <div class="relative z-20 flex flex-col items-center justify-center min-h-screen px-4 text-center text-white">
             <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight drop-shadow-md">
                 Cari Rental Alat<br>Online
@@ -30,7 +26,7 @@
                     placeholder="Cari Alat" 
                     class="w-full px-4 py-3 text-gray-700 focus:outline-none"
                 >
-                <button class="px-6 py-3 font-medium text-white bg-green-500 hover:bg-green-600">
+                <button class="px-4 py-3 font-medium text-grey-700 bg-green-500 hover:bg-green-600 border border-black transition duration-300 ease-in-out">
                     CARI
                 </button>
             </div>
@@ -42,81 +38,81 @@
     <section class="py-12 px-6 max-w-6xl mx-auto">
         <h2 class="text-2xl font-bold text-gray-800 mb-8">Pilihan Rental Beragam</h2>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow">
-                <img src="https://cdn-icons-png.flaticon.com/512/4616/4616734.png" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Genset</span>
+            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
+                <img src="foto/awp.jpg" alt="Alat" class="w-16 h-16 mb-2">
+                <span class="text-sm text-gray-700 text-center">AWP</span>
             </a>
-            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow">
-                <img src="https://cdn-icons-png.flaticon.com/512/2180/2180903.png" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Loader Lift</span>
+            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
+                <img src="foto/boom-lift.jpg" alt="Alat" class="w-16 h-16 mb-2">
+                <span class="text-sm text-gray-700 text-center">Boom Lift</span>
             </a>
-            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow">
-                <img src="https://cdn-icons-png.flaticon.com/512/5018/5018421.png" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Excavator Komatsu</span>
+            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
+                <img src="foto/breaker.jpg" alt="Alat" class="w-16 h-16 mb-2">
+                <span class="text-sm text-gray-700 text-center">Breaker Excavator</span>
             </a>
-            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow">
-                <img src="https://cdn-icons-png.flaticon.com/512/2271/2271403.png" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Bulldozer Komatsu</span>
+            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
+                <img src="foto/bucket.jpg" alt="Alat" class="w-16 h-16 mb-2">
+                <span class="text-sm text-gray-700 text-center">Bucket Excavator</span>
             </a>
-            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow">
-                <img src="https://cdn-icons-png.flaticon.com/512/3127/3127288.png" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Compactor Bomag</span>
+            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
+                <img src="foto/concrete.jpg" alt="Alat" class="w-16 h-16 mb-2">
+                <span class="text-sm text-gray-700 text-center">Concrete Screed</span>
             </a>
-            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow">
-                <img src="https://cdn-icons-png.flaticon.com/512/2986/2986232.png" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Grader</span>
+            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
+                <img src="foto/dozer.jpg" alt="Alat" class="w-16 h-16 mb-2">
+                <span class="text-sm text-gray-700 text-center">Dozer</span>
             </a>
-            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow">
-                <img src="https://cdn-icons-png.flaticon.com/512/1785/1785352.png" alt="Alat" class="w-16 h-16 mb-2">
+            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
+                <img src="foto/forklift.jpg" alt="Alat" class="w-16 h-16 mb-2">
                 <span class="text-sm text-gray-700 text-center">Forklift</span>
             </a>
-            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow">
-                <img src="https://cdn-icons-png.flaticon.com/512/9221/9221799.png" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Container</span>
+            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
+                <img src="foto/genset.jpg" alt="Alat" class="w-16 h-16 mb-2">
+                <span class="text-sm text-gray-700 text-center">Genset</span>
             </a>
-            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow">
-                <img src="https://cdn-icons-png.flaticon.com/512/1996/1996085.png" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Air Compressor</span>
+            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
+                <img src="foto/plate.jpg" alt="Alat" class="w-16 h-16 mb-2">
+                <span class="text-sm text-gray-700 text-center">Plate Compactor</span>
             </a>
-            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow">
-                <img src="https://cdn-icons-png.flaticon.com/512/2099/2099174.png" alt="Alat" class="w-16 h-16 mb-2">
+            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
+                <img src="foto/scissor.jpg" alt="Alat" class="w-16 h-16 mb-2">
                 <span class="text-sm text-gray-700 text-center">Scissor Lift</span>
             </a>
-            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow">
-                <img src="https://cdn-icons-png.flaticon.com/512/5514/5514990.png" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Traktor Kecil</span>
+            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
+                <img src="foto/tandem.jpg" alt="Alat" class="w-16 h-16 mb-2">
+                <span class="text-sm text-gray-700 text-center">Tandem Roller</span>
             </a>
-            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow">
-                <img src="https://cdn-icons-png.flaticon.com/512/3815/3815483.png" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Motor Grader</span>
+            <a href="#" class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
+                <img src="foto/vibro.jpg" alt="Alat" class="w-16 h-16 mb-2">
+                <span class="text-sm text-gray-700 text-center">Vibro Roller</span>
             </a>
         </div>
         <div class="flex justify-center mt-8">
-            <a href="#" class="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors">Cari Alat Lain?</a>
+            <a href="/cari" class="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors font-semibold">Cari Alat Lain?</a>
         </div>
     </section>
 
     <!-- Why Choose Us -->
     <section class="py-12 px-6 max-w-6xl mx-auto">
-        <h2 class="text-2xl font-bold text-gray-800 mb-8">Mengapa Memilih Kami?</h2>
+        <h2 class="text-2xl font-bold text-gray-800 mb-8 text-center">Mengapa Memilih Kami?</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="border rounded-lg p-6 flex flex-col items-center text-center">
-                <div class="bg-purple-100 p-3 rounded-lg mb-4">
-                    <img src="https://cdn-icons-png.flaticon.com/512/4299/4299622.png" alt="Praktis" class="w-16 h-16">
+            <div class="border rounded-lg p-6 flex flex-col items-center text-center shadow-lg">
+                <div class= "mb-4">
+                    <img src="foto/1.jpg" alt="Praktis" class="w-16 h-16">
                 </div>
                 <h3 class="text-lg font-semibold mb-2">Praktis</h3>
                 <p class="text-gray-600">Permudahan segala dari proses mencari website.</p>
             </div>
-            <div class="border rounded-lg p-6 flex flex-col items-center text-center">
-                <div class="bg-blue-100 p-3 rounded-lg mb-4">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1642/1642068.png" alt="Hemat Biaya" class="w-16 h-16">
+            <div class="border rounded-lg p-6 flex flex-col items-center text-center shadow-lg">
+                <div class=" rounded-lg mb-4">
+                    <img src="foto/2.jpg" alt="Hemat Biaya" class="w-16 h-16">
                 </div>
                 <h3 class="text-lg font-semibold mb-2">Hemat Biaya</h3>
                 <p class="text-gray-600">Penyewaan lebih murah, dibanding membeli alat sendiri.</p>
             </div>
-            <div class="border rounded-lg p-6 flex flex-col items-center text-center">
-                <div class="bg-green-100 p-3 rounded-lg mb-4">
-                    <img src="https://cdn-icons-png.flaticon.com/512/4149/4149883.png" alt="Alat Berkualitas" class="w-16 h-16">
+            <div class="border rounded-lg p-6 flex flex-col items-center text-center shadow-lg">
+                <div class="rounded-lg mb-4">
+                    <img src="foto/3.jpg" alt="Alat Berkualitas" class="w-16 h-16">
                 </div>
                 <h3 class="text-lg font-semibold mb-2">Alat Berkualitas</h3>
                 <p class="text-gray-600">Tersedia berbagai alat modern dan siap pakai.</p>
@@ -129,7 +125,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
             <div>
                 <p class="text-gray-700 mb-4">Bergabunglah sebagai mitra AgroTech dan pastikan bagian dari inovasi pertanian digital di-C! Tingkatkan pendapatan bisnis dengan menyewakan alat pertanian Anda kepada lebih banyak petani.</p>
-                <a href="#" class="inline-block bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors">Bergabung Sekarang</a>
+                <a href="#" class="inline-block bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors shadow-xl font-semibold">Bergabung Sekarang</a>
             </div>
             <div class="rounded-lg overflow-hidden">
                 <img src="\img\tractor.jpg" class="w-full h-64 object-cover">
@@ -138,7 +134,7 @@
     </section>
 
     <!-- Stats Section -->
-    <section class="bg-green-800 text-white py-10 px-6">
+    <section class="bg-[#1B7037] text-white py-10 px-6">
         <div class="max-w-6xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="flex flex-col">
@@ -169,69 +165,26 @@
         <p class="text-gray-700 mb-6">
             AgroTech hadir untuk mendukung transformasi pertanian Indonesia menuju masa depan yang lebih efisien, efektif, dan berkelanjutan.
         </p>
-        <a href="#" class="inline-block bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors">Pelajari Lebih Lanjut</a>
+        <a href="#" class="inline-block bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors font-semibold">Pelajari Lebih Lanjut</a>
     </section>
 
     <!-- CTA Section -->
     <section class="py-12 px-6 max-w-6xl mx-auto">
-        <div class="bg-gray-100 rounded-lg p-8">
-            <p class="text-gray-800 mb-4">Siap meningkatkan produktivitas pertanian Anda? 🌾 Dengan AgroTech, Anda bisa menyewa alat pertanian modern dengan proses yang mudah dan terjangkau. Apa karena di daerah Anda sulit mencari alat pertanian?</p>
-            <a href="#" class="inline-block bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors">Tanya Sekarang</a>
+    <div class="relative bg-gray-100 rounded-lg p-8 overflow-hidden">
+        <img src="foto/sawag.jpg" alt="Gambar Tractor" class="absolute inset-0 w-full h-full object-cover z-0">
+        <div class="absolute inset-0 bg-white/60 z-10"></div>
+        <div class="relative z-20">
+            <p class="text-gray-800 mb-4">
+                Siap meningkatkan produktivitas pertanian Anda? 🌾 Dengan AgroTech, Anda bisa menyewa alat pertanian modern dengan proses yang mudah dan terjangkau. Apa karena di daerah Anda sulit mencari alat pertanian?
+            </p>
+            <a href="#" class="inline-block bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors font-semibold shadow-inner">
+                Tanya Sekarang
+            </a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-10 px-6">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-                <h3 class="text-lg font-semibold mb-4">AgroTech</h3>
-                <p class="text-gray-400 text-sm">Platform rental alat pertanian modern untuk meningkatkan produktivitas pertanian Indonesia.</p>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold mb-4">Produk</h3>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-gray-400 text-sm hover:text-white">Alat Pertanian</a></li>
-                    <li><a href="#" class="text-gray-400 text-sm hover:text-white">Traktor</a></li>
-                    <li><a href="#" class="text-gray-400 text-sm hover:text-white">Excavator</a></li>
-                    <li><a href="#" class="text-gray-400 text-sm hover:text-white">Bulldozer</a></li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold mb-4">Perusahaan</h3>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-gray-400 text-sm hover:text-white">Tentang Kami</a></li>
-                    <li><a href="#" class="text-gray-400 text-sm hover:text-white">Karir</a></li>
-                    <li><a href="#" class="text-gray-400 text-sm hover:text-white">Blog</a></li>
-                    <li><a href="#" class="text-gray-400 text-sm hover:text-white">Kontak</a></li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold mb-4">Kontak</h3>
-                <ul class="space-y-2">
-                    <li class="flex items-center text-gray-400 text-sm">
-                        <i class="fa fa-envelope mr-2"></i>
-                        info@agrotech.com
-                    </li>
-                    <li class="flex items-center text-gray-400 text-sm">
-                        <i class="fa fa-phone mr-2"></i>
-                        0812 3456 7890
-                    </li>
-                    <li class="flex items-center text-gray-400 text-sm">
-                        <i class="fa fa-map-marker mr-2"></i>
-                        Jakarta, Indonesia
-                    </li>
-                </ul>
-                <div class="mt-4 flex space-x-4">
-                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="max-w-6xl mx-auto mt-8 pt-6 border-t border-gray-700">
-            <p class="text-center text-gray-400 text-sm">© 2025 AgroTech. Hak Cipta Dilindungi.</p>
-        </div>
-    </footer>
+
+    @include('asset.footer')
 </body>
 </html>
