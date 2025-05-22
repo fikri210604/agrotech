@@ -24,7 +24,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        return view('admin.transactions.create', compact('transaction'));
+        return view('admin.transactions.create');
     }
 
     /**
@@ -32,7 +32,7 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        
+
     }
 
     /**
@@ -55,11 +55,12 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-        public function update(Request $request, string $id)
+    public function update(Request $request, string $id)
     {
         $validator = Validator::make($request->all(), [
             'status' => 'required|in:lunas,pending,batal',
         ]);
+
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -72,7 +73,8 @@ class TransactionController extends Controller
             'status' => $request->status
         ]);
 
-        return redirect()->route('transactions.index')->with('success', 'Status transaksi berhasil diperbarui');
+
+        return redirect()->route('transactions.index')->with('success', 'Status transaksi berhasil diperbarui.');
     }
 
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
@@ -21,53 +20,68 @@ class CompanyController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:15',
-            'deskripsi' => 'nullable|string',
-            'visi' => 'required|string|max:500',
-            'misi' => 'required|string|max:500',
-            'alasan_memilih' => 'required|string|max:500',
-            'foto_promosi' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'foto_galeri' => 'nullable|array',
-            'foto_galeri.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'deskripsi' => 'nullable'|'required',
+            'visi' => 'required',
+            'misi' => 'required',
+            'alasan_memilih' => 'required',
+            'foto_promosi.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'foto_galeri.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'foto_alasan_tambahan.*' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        $data = $request->only(['name', 'email', 'phone', 'deskripsi', 'visi', 'misi', 'alasan_memilih']);
 
-        $promosiFilename = null;
+        // Upload banyak foto promosi
         if ($request->hasFile('foto_promosi')) {
-            $promosiFilename = time() . '_promosi.' . $request->file('foto_promosi')->extension();
-            $request->file('foto_promosi')->move(public_path('images/company-profile/promosi'), $promosiFilename);
+            $promosiNames = [];
+            foreach ($request->file('foto_promosi') as $file) {
+                $fileName = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('images/company-profile/promosi'), $fileName);
+                $promosiNames[] = $fileName;
+            }
+            $data['foto_promosi'] = json_encode($promosiNames);
         }
 
-        $galeriFilenames = [];
+
+        // Upload galeri
         if ($request->hasFile('foto_galeri')) {
+            $galeriNames = [];
             foreach ($request->file('foto_galeri') as $file) {
-                $namaFile = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('images/company-profile/galeri'), $namaFile);
-                $galeriFilenames[] = $namaFile;
+                $fileName = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('images/company-profile/galeri'), $fileName);
+                $galeriNames[] = $fileName;
+            }
+            $data['foto_galeri'] = json_encode($galeriNames);
+        }
+
+        // Proses alasan tambahan
+        $alasanTambahan = [];
+        if ($request->has('alasan_tambahan')) {
+            foreach ($request->alasan_tambahan as $index => $alasan) {
+                $foto = null;
+                if ($request->hasFile('foto_alasan_tambahan') && isset($request->foto_alasan_tambahan[$index])) {
+                    $file = $request->foto_alasan_tambahan[$index];
+                    $fotoName = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('images/company-profile/alasan'), $fotoName);
+                    $foto = $fotoName;
+                }
+
+                $alasanTambahan[] = [
+                    'alasan' => $alasan,
+                    'foto' => $foto
+                ];
             }
         }
+        $data['alasan_tambahan'] = json_encode($alasanTambahan);
 
-        Company::create([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'deskripsi' => $request->deskripsi,
-            'visi' => $request->visi,
-            'misi' => $request->misi,
-            'alasan_memilih' => $request->alasan_memilih,
-            'foto_promosi' => $promosiFilename,
-            'foto_galeri' => !empty($galeriFilenames) ? json_encode($galeriFilenames) : null,
-        ]);
+        Company::create($data);
 
-        return redirect()->route('perusahaan.index')->with('success', 'Perusahaan created successfully.');
+        return redirect()->route('perusahaan.index')->with('success', 'Data perusahaan berhasil ditambahkan.');
     }
-
 
     public function show()
     {
@@ -83,60 +97,95 @@ class CompanyController extends Controller
 
     public function update(Request $request)
     {
-        $company = Company::first() ?? new Company();
-    
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:15',
-            'deskripsi' => 'nullable|string',
-            'visi' => 'required|string|max:500',
-            'misi' => 'required|string|max:500',
-            'alasan_memilih' => 'required|string|max:500',
-            'foto_promosi' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'foto_galeri' => 'nullable|array',
-            'foto_galeri.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        $company = Company::first();
+        if (!$company)
+            return redirect()->back()->with('error', 'Data tidak ditemukan.');
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'deskripsi' => 'nullable',
+            'visi' => 'required',
+            'misi' => 'required',
+            'alasan_memilih' => 'required',
+            'foto_promosi.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'foto_galeri.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'foto_alasan_tambahan.*' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
-    
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-    
-        // SIMPAN FOTO PROMOSI
+
+        $data = $request->only(['name', 'email', 'phone', 'deskripsi', 'visi', 'misi', 'alasan_memilih']);
+
+        // Update banyak foto promosi
         if ($request->hasFile('foto_promosi')) {
-            $promosiFilename = time() . '_promosi.' . $request->file('foto_promosi')->extension();
-            $request->file('foto_promosi')->move(public_path('images/company-profile/promosi'), $promosiFilename);
-            $company->foto_promosi = $promosiFilename;
-        }
-    
-        // SIMPAN FOTO GALERI
-        if ($request->hasFile('foto_galeri')) {
-            $fotoBaru = [];
-    
-            foreach ($request->file('foto_galeri') as $file) {
-                $namaFile = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('images/company-profile/galeri'), $namaFile);
-                $fotoBaru[] = $namaFile;
+            // Hapus file lama
+            if ($company->foto_promosi) {
+                $oldPromosi = json_decode($company->foto_promosi, true);
+                if (is_array($oldPromosi)) {
+                    foreach ($oldPromosi as $oldFoto) {
+                        $oldPath = public_path('images/company-profile/promosi/' . $oldFoto);
+                        if (file_exists($oldPath))
+                            unlink($oldPath);
+                    }
+                }
             }
-    
-            $fotoLama = json_decode($company->foto_galeri, true) ?? [];
-            $company->foto_galeri = json_encode(array_merge($fotoLama, $fotoBaru));
+
+            $promosiNames = [];
+            foreach ($request->file('foto_promosi') as $file) {
+                $fileName = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('images/company-profile/promosi'), $fileName);
+                $promosiNames[] = $fileName;
+            }
+
+            $data['foto_promosi'] = json_encode($promosiNames);
         }
-    
-        // UPDATE FIELD LAIN
-        $company->name = $request->name;
-        $company->email = $request->email;
-        $company->phone = $request->phone;
-        $company->deskripsi = $request->deskripsi;
-        $company->visi = $request->visi;
-        $company->misi = $request->misi;
-        $company->alasan_memilih = $request->alasan_memilih;
-    
-        $company->save();
-    
-        return redirect()->route('perusahaan.index')->with('success', 'Perusahaan updated successfully.');
+
+
+        // Update galeri
+        if ($request->hasFile('foto_galeri')) {
+            if ($company->foto_galeri) {
+                $oldGaleri = json_decode($company->foto_galeri, true);
+                if (is_array($oldGaleri)) {
+                    foreach ($oldGaleri as $oldFoto) {
+                        $oldPath = public_path('images/company-profile/galeri/' . $oldFoto);
+                        if (file_exists($oldPath))
+                            unlink($oldPath);
+                    }
+                }
+            }
+
+            $galeriNames = [];
+            foreach ($request->file('foto_galeri') as $file) {
+                $fileName = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('images/company-profile/galeri'), $fileName);
+                $galeriNames[] = $fileName;
+            }
+            $data['foto_galeri'] = json_encode($galeriNames);
+        }
+
+        // Update alasan tambahan
+        $alasanTambahan = [];
+        if ($request->has('alasan_tambahan')) {
+            foreach ($request->alasan_tambahan as $index => $alasan) {
+                $foto = null;
+                if ($request->hasFile('foto_alasan_tambahan') && isset($request->foto_alasan_tambahan[$index])) {
+                    $file = $request->foto_alasan_tambahan[$index];
+                    $fotoName = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('images/company-profile/alasan'), $fotoName);
+                    $foto = $fotoName;
+                }
+                $alasanTambahan[] = [
+                    'alasan' => $alasan,
+                    'foto' => $foto
+                ];
+            }
+        }
+        $data['alasan_tambahan'] = json_encode($alasanTambahan);
+
+        $company->update($data);
+
+        return redirect()->route('perusahaan.index')->with('success', 'Data perusahaan berhasil diperbarui.');
     }
-    
 
     public function destroy()
     {

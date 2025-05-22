@@ -68,7 +68,7 @@ class ProductController extends Controller
         ]);
         // Simpan data produk
         // dd($request->all());
-        return redirect('products.store')->with('success', 'Selamat Datang ' . $request->name);
+        return redirect()->route('products.index')->with('success','produk berhasil ditambahkan');
     }
 
     /**
@@ -85,7 +85,7 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $product = Product::findOrFail($id);
-        return view('admin.producs.edit', compact('product'));
+        return view('admin.products.edit', compact('products'));
     }
 
     /**
@@ -112,19 +112,32 @@ class ProductController extends Controller
         }
 
 
-        Product::findOrFail($id)->update([
-            'foto'=>$request->$foto,
-            'nama' => $request->$nama,
-            'jenis' => $request->$jenis,
-            'kategori' => $request->$kategori,
-            'merek' => $request->$merek,
-            'deskripsi' => $request->$deskripsi,
-            'harga_sewa' => $request->$harga_sewa,
-            'stok' => $request->$stok,
-            'status' => $request->$status
-        ]);
+        $product = Product::findOrFail($id);
+
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama jika ada
+            if ($product->foto && file_exists(public_path('images/product/' . $product->foto))) {
+                unlink(public_path('images/product/' . $product->foto));
+            }
+
+            // Simpan foto baru
+            $filename = time() . '.' . $request->foto->extension();
+            $request->foto->move(public_path('images/product'), $filename);
+            $product->foto = $filename;
+        }
+
+        $product->nama = $request->nama;
+        $product->jenis = $request->jenis;
+        $product->kategori = $request->kategori;
+        $product->merek = $request->merek;
+        $product->deskripsi = $request->deskripsi;
+        $product->harga_sewa = $request->harga_sewa;
+        $product->stok = $request->stok;
+        $product->status = $request->status;
+        $product->save();
 
         return redirect()->route('products.index')->with('success', 'Data berhasil diupdate!');
+
     }
 
 
@@ -145,5 +158,15 @@ class ProductController extends Controller
 
         return redirect()->back()->with('success', 'Data berhasil dihapus!');
     }
+
+    public function searchProduct(Request $request)
+    {
+        $search = $request->input('search');
+        $products = Product::where('nama', 'like', '%' . $search . '%')->paginate(10);
+        return view('admin.products.index', compact('products'));
+    }
+
+    
+
 
 }

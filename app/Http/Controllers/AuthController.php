@@ -99,9 +99,8 @@ class AuthController extends Controller
                 return redirect()->intended('/home');
             }
         }
-        return back()->withErrors([
-            'email' => 'Terjadi kesalahan, silahkan coba lagi.',
-        ])->onlyInput('email');
+        return redirect()->back()->with('login_error', 'Email atau password salah')->withInput();
+
 
     }
 

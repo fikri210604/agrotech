@@ -35,8 +35,8 @@
         <span>Data Penyewa</span></a>
 </li>
 
-<li class="nav-item {{ request()->is('transaction') ? 'active' : '' }}">
-    <a class="nav-link" href="/transaction">
+<li class="nav-item {{ request()->is('transactions') ? 'active' : '' }}">
+    <a class="nav-link" href="/transactions">
         <i class="fas fa-clipboard-list"></i>
         <span>Transaksi</span></a>
 </li>

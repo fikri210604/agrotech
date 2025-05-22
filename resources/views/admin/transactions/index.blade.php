@@ -21,9 +21,15 @@
 
             <!-- Body -->
             <div class="card-body">
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
                 @if ($errors->any())
                     <div class="alert alert-danger">
-                        <ul>
+                        <ul class="mb-0">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
@@ -33,7 +39,7 @@
 
                 <!-- Table Responsive -->
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead class="bg-success text-white">
                             <tr>
                                 <th>No</th>
@@ -57,7 +63,7 @@
                             @forelse ($transactions as $transaction)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $transaction->user_id }}</td>
+                                    <td>{{ $transaction->user->user_id }}</td>
                                     <td>
                                         <img src="{{ asset('images/products/' . $transaction->product->foto) }}" width="50px">
                                     </td>
@@ -76,6 +82,9 @@
                                         <!-- Tombol Edit Status -->
                                         <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editStatusModal{{ $transaction->id }}">
                                             <i class="fas fa-pen fa-sm text-white-50"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{ $transaction->id }}">
+                                            <i class="fas fa-trash fa-sm text-white-50"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -97,10 +106,13 @@
                                                     <div class="form-group">
                                                         <label for="status">Status</label>
                                                         <select name="status" class="form-control" required>
-                                                            <option value="Diproses" {{ $transaction->status == 'Diproses' ? 'selected' : '' }}>Diproses</option>
-                                                            <option value="Selesai" {{ $transaction->status == 'Selesai' ? 'selected' : '' }}>Selesai</option>
-                                                            <option value="Dibatalkan" {{ $transaction->status == 'Dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
+                                                            <option value="Diproses" {{ $transaction->status == 'lunas' ? 'selected' : '' }}>Lunas</option>
+                                                            <option value="Selesai" {{ $transaction->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                            <option value="Dibatalkan" {{ $transaction->status == 'batal' ? 'selected' : '' }}>Batal</option>
                                                         </select>
+                                                        @error('status')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -118,6 +130,11 @@
                             @endforelse
                         </tbody>
                     </table>
+
+                    {{-- Pagination --}}
+                    <div class="d-flex justify-content-end mt-3">
+                        {{ $transactions->links() }}
+                    </div>
                 </div> 
             </div>
         </div>
