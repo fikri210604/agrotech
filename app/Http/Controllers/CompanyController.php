@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
@@ -24,7 +25,7 @@ class CompanyController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'phone' => 'required',
-            'deskripsi' => 'nullable'|'required',
+            'deskripsi' => 'nullable',
             'visi' => 'required',
             'misi' => 'required',
             'alasan_memilih' => 'required',
@@ -131,6 +132,7 @@ class CompanyController extends Controller
             }
 
             $promosiNames = [];
+            dd($request->file('foto_promosi'));
             foreach ($request->file('foto_promosi') as $file) {
                 $fileName = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
                 $file->move(public_path('images/company-profile/promosi'), $fileName);
@@ -139,7 +141,6 @@ class CompanyController extends Controller
 
             $data['foto_promosi'] = json_encode($promosiNames);
         }
-
 
         // Update galeri
         if ($request->hasFile('foto_galeri')) {

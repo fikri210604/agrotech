@@ -23,7 +23,11 @@ class Product extends Model
         'foto',
     ];
 
-    public function transactions()
+    public function Category(){
+        return $this->belongsTo(Category::class);
+    }
+
+    public function Transactions()
     {
         return $this->hasMany(Transaction::class);
     }

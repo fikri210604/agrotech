@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('foto')->nullable();
             $table->string('jenis');
-            $table->string('kategori');
+            $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->string('merek');
             $table->string('deskripsi');
             $table->string('stok')->default(0);

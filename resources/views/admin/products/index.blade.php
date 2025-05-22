@@ -60,7 +60,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $product->id }}</td>
                                     <td>
-                                        <img src="{{ asset('images/products/' . $product->foto) }}" width="50px">
+                                        <img src="{{ asset('images/product/' . $product->foto) }}" width="50px">
                                     </td>
                                     <td>{{ $product->nama }}</td>
                                     <td>{{ $product->kategori }}</td>
@@ -206,7 +206,7 @@
                     </div>
                     <div class="form-group">
                         <label>Nama Alat</label>
-                        <input type="text" name="name" value="{{ $product->nama }}" class="form-control" required>
+                        <input type="text" name="nama" value="{{ $product->nama }}" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Kategori</label>
@@ -226,7 +226,7 @@
                     </div>
                     <div class="form-group">
                         <label>Harga</label>
-                        <input type="text" name="harga" value="{{ $product->harga_sewa }}" class="form-control" required>
+                        <input type="text" name="harga_sewa" value="{{ $product->harga_sewa }}" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Stok</label>

@@ -39,72 +39,18 @@
         </div>
     </section>
 
-
-
     <!-- Equipment Categories -->
     <section class="py-12 px-6 max-w-6xl mx-auto">
         <h2 class="text-2xl font-bold text-gray-800 mb-8">Pilihan Rental Beragam</h2>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            <a href="#"
-                class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
-                <img src="foto/awp.jpg" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">AWP</span>
-            </a>
-            <a href="#"
-                class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
-                <img src="foto/boom-lift.jpg" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Boom Lift</span>
-            </a>
-            <a href="#"
-                class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
-                <img src="foto/breaker.jpg" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Breaker Excavator</span>
-            </a>
-            <a href="#"
-                class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
-                <img src="foto/bucket.jpg" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Bucket Excavator</span>
-            </a>
-            <a href="#"
-                class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
-                <img src="foto/concrete.jpg" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Concrete Screed</span>
-            </a>
-            <a href="#"
-                class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
-                <img src="foto/dozer.jpg" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Dozer</span>
-            </a>
-            <a href="#"
-                class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
-                <img src="foto/forklift.jpg" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Forklift</span>
-            </a>
-            <a href="#"
-                class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
-                <img src="foto/genset.jpg" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Genset</span>
-            </a>
-            <a href="#"
-                class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
-                <img src="foto/plate.jpg" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Plate Compactor</span>
-            </a>
-            <a href="#"
-                class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
-                <img src="foto/scissor.jpg" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Scissor Lift</span>
-            </a>
-            <a href="#"
-                class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
-                <img src="foto/tandem.jpg" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Tandem Roller</span>
-            </a>
-            <a href="#"
-                class="flex flex-col items-center p-4 border rounded-md hover:shadow-md transition-shadow shadow-xl">
-                <img src="foto/vibro.jpg" alt="Alat" class="w-16 h-16 mb-2">
-                <span class="text-sm text-gray-700 text-center">Vibro Roller</span>
-            </a>
+            @foreach ($categories as $category)
+                <a href="/cari?category={{ $category->nama }}"
+                    class="bg-gray-100 hover:bg-gray-200 transition-colors duration-300 ease-in-out rounded-lg p-4 flex flex-col items-center">
+                    <img src="{{ asset('images/category/' . $category->foto) }}" alt="{{ $category->nama }}"
+                        class="w-16 h-16 mb-2">
+                    <span class="text-sm text-gray-700 text-center">{{ $category->nama }}</span>
+                </a>
+            @endforeach
         </div>
         <form action="/cari" method="GET">
             @csrf

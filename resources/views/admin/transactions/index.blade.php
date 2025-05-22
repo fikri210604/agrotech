@@ -65,7 +65,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $transaction->user->user_id }}</td>
                                     <td>
-                                        <img src="{{ asset('images/products/' . $transaction->product->foto) }}" width="50px">
+                                        <img src="{{ asset('images/product/' . $transaction->product->foto) }}" width="50px">
                                     </td>
                                     <td>{{ $transaction->nama_penyewa }}</td>
                                     <td>{{ $transaction->no_hp_penyewa }}</td>
